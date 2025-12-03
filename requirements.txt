@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+pydantic
+pydantic-settings==2.11.0
+agno
+openai
+pypdf
+nicegui
+pytest
+pytest-check
