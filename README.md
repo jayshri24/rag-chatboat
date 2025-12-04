@@ -64,9 +64,9 @@ A minimal Document QA Chatbot built with FastAPI, Agno, and NiceGUI that streams
    ```
 
 6. **Access the application**:
-   - FastAPI API: http://localhost:8000
-   - NiceGUI UI: http://localhost:8081
-   - API Documentation: http://localhost:8000/docs
+   - FastAPI API: http://16.176.194.5:8000/
+   - NiceGUI UI: http://16.176.194.5:8081/
+   - API Swagger Documentation: http://16.176.194.5:8000/docs
 
 ## Testing
 
