@@ -64,9 +64,9 @@ A minimal Document QA Chatbot built with FastAPI, Agno, and NiceGUI that streams
    ```
 
 6. **Access the application**:
-   - FastAPI API: http://16.176.194.5:8000/
-   - NiceGUI UI: http://16.176.194.5:8081/
-   - API Swagger Documentation: http://16.176.194.5:8000/docs
+   - FastAPI API: http://16.176.194.5/api
+   - NiceGUI UI: http://16.176.194.5/
+   - API Swagger Documentation: http://16.176.194.5/docs
 
 ## Testing
 
@@ -94,7 +94,6 @@ pytest tests/integration/
 
 ### Streaming Chat
 - `POST /chat/stream`: Stream agent responses token-by-token
-- Returns NDJSON stream with status updates and tokens
 
 ### PDF Upload
 - `POST /upload/pdf`: Upload and parse PDF documents
