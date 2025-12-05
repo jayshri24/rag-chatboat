@@ -209,53 +209,57 @@ def create_app() -> None:
     app.add_static_files("/static", "static")
     app.mount("/api", fastapi_app)
 
-    @ui.page("/")
-    def main_page():
-        ui.page_title("Document QA Chatbot")
+@ui.page("/")
+def main_page():
+    ui.page_title("Document QA Chatbot")
 
-        # 1. Header - Title and Subtitle (at the top)
-        ui.label("Document QA Chatbot").classes("text-h4 text-primary mb-2")
-        ui.label("Upload a PDF and ask questions about it!").classes("text-body1 mb-6")
+    with ui.column().classes("w-full max-w-3xl mx-auto p-4 gap-4"):
 
-        # 2. PDF Upload Section (second)
-        with ui.card().classes("w-full mb-4"):
-            ui.label("Upload PDF Document").classes("text-h6 mb-2")
+        # HEADER
+        ui.label("Document QA Chatbot").classes("text-3xl font-bold text-primary")
+        ui.label("Upload a PDF and ask questions easily!").classes("text-md text-gray-600")
+
+        # PDF UPLOAD CARD
+        with ui.card().classes("w-full p-4 shadow-lg"):
+            ui.label("Upload PDF Document").classes("text-lg font-semibold mb-2")
 
             upload = ui.upload(
                 on_upload=handle_pdf_upload,
                 auto_upload=True,
-                max_file_size=10 * 1024 * 1024, 
-            ).classes("w-full")
+                max_file_size=10 * 1024 * 1024,
+            ).classes("w-full border rounded-lg p-4 bg-gray-50")
             upload.props("accept=.pdf")
 
-            ui.label("Drag and drop a PDF file or click to browse").classes("text-caption text-grey-500")
+            ui.label("Drag & drop a PDF or click browse").classes(
+                "text-xs text-gray-500 mt-1"
+            )
 
-        # 3. Question Input and Send Button (third)
-        msg_input = ui.input(placeholder="Ask a question...").classes("flex-1")
-        send_btn = ui.button(
-            "Send",
-            on_click=lambda: asyncio.create_task(send_message(msg_input.value))
-        ).classes("ml-2")
-        
-        with ui.row().classes("w-full mb-4 items-center"):
-            msg_input
-            send_btn
-        
-        # Session info
-        with ui.row().classes("w-full mb-4"):
-            ui.label(f"Session: {current_session_id[:8]}...").classes("text-caption")
-            ui.button("New Session", on_click=new_session).classes("ml-auto")
-        
-        # Create containers for status and chat messages (after main interface)
-        status_cont = ui.row().classes("w-full mb-4")
-        chat_cont = ui.column().classes("w-full mb-4")
-        
-        # Initialize global references
-        global status_container, chat_container, message_input, send_button
-        status_container = status_cont
-        chat_container = chat_cont
-        message_input = msg_input
-        send_button = send_btn
+        # SESSION INFO
+        with ui.row().classes("items-center w-full"):
+            ui.badge(f"Session: {current_session_id[:8]}").classes(
+                "text-sm bg-indigo-100 text-indigo-600 px-3 py-1 rounded-lg"
+            )
+            ui.button("New Session", on_click=new_session).classes(
+                "ml-auto bg-indigo-600 text-white rounded-lg"
+            )
+
+        # STATUS + CHAT AREA
+        global status_container, chat_container
+        status_container = ui.row().classes("w-full text-gray-600 text-sm")
+        chat_container = ui.column().classes(
+            "w-full max-h-[500px] overflow-y-auto bg-white p-4 rounded-xl shadow-inner gap-3"
+        )
+
+        # INPUT BAR
+        global message_input, send_button
+        with ui.row().classes(
+            "w-full items-center sticky bottom-0 bg-white p-2 shadow-md gap-2"
+        ):
+            message_input = ui.input(placeholder="Ask a question...").classes("flex-1")
+            send_button = ui.button(
+                "Send",
+                on_click=lambda: asyncio.create_task(send_message(message_input.value)),
+            ).classes("bg-blue-600 text-white px-4")
 
 if __name__ in {"__main__", "__mp_main__"}:
     create_app()
